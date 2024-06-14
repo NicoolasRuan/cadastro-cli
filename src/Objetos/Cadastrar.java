@@ -14,18 +14,17 @@ public class Cadastrar {
         // lista de respostas do form
         Map<String, String> respostas = new HashMap<>();
 
-        // banco de usuarios
-        List<Usuario> banco = new ArrayList<Usuario>();
-
-        readAndSave("formulario.txt", respostas);
+        readForm("formulario.txt", respostas);
 
         banco.add(new Usuario(respostas.get("nome"), respostas.get("email"), respostas.get("idade"),respostas.get("altura")));
+
+        System.out.println(banco.stream().count());
 
         System.out.println(log(respostas));
 
     }
 
-    private static void readAndSave(String filePath, Map respostas) throws IOException {
+    private static void readForm(String filePath, Map respostas) throws IOException {
         // leitura do arquivo txt do form
         InputStream is = new FileInputStream(filePath);
         InputStreamReader isr = new InputStreamReader(is);
@@ -64,5 +63,8 @@ public class Cadastrar {
 
     public static List<Usuario> getBanco() {
         return banco;
+    }
+
+    public static void save() {
     }
 }
