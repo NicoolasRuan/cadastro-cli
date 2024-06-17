@@ -46,6 +46,48 @@ public class UserService {
 
     }
 
+    public void saveOnDb(String path, User user) throws IOException {
+
+        FileOutputStream fos = new FileOutputStream(path);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(user);
+        oos.close();
+
+    }
+
+    public List<User> readFromDb(String path) {
+        List<User> users = null;
+        try {
+            FileInputStream fis = new FileInputStream(path);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            // Lendo o objeto (que é uma lista de usuários)
+            System.out.println(ois.readByte());
+            if(ois.available()>0) {
+                users = (List<User>) ois.readObject();
+            }
+
+            // Fechando o stream
+            ois.close();
+        } catch (EOFException e) {
+            System.out.println("nenhum usuario cadastrado no banco.");
+            System.out.println();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred: File not found.");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("An error occurred: IO exception.");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            System.out.println("An error occurred: Class not found.");
+            e.printStackTrace();
+        }
+
+        return users;
+
+
+    }
+
     public String convertWithIteration(Map<String, String> map) {
         StringBuilder mapAsString = new StringBuilder("{");
         for (String key : map.keySet()) {

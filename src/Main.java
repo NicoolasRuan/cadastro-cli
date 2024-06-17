@@ -8,8 +8,7 @@ import View.UserView;
 import java.io.*;
 import java.util.*;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+
 public class Main {
     public static void main(String[] args) throws IOException {
 
@@ -29,12 +28,12 @@ public class Main {
 
             switch (opção){
                 case "0":
-                    if(!userController.getUsers().isEmpty()) {
-                        System.out.println("deseja salvar usuarios? (S/N)");
-                        if(sc.nextLine().toUpperCase().equals("S")) {
-                            userController.saveUsers();
-                        }
-                    }
+//                    if(!userController.getUsers().isEmpty()) {
+//                        System.out.println("deseja salvar usuarios? (S/N)");
+//                        if(sc.nextLine().toUpperCase().equals("S")) {
+//                            userController.saveUsers();
+//                        }
+//                    }
                     break;
                 case "1":
                     //Map<String, String > questions = UserService.readQuestions("formulario.txt");
@@ -43,11 +42,14 @@ public class Main {
                     //Cadastrar.run();
                     break;
                 case "3":
-                    if(!userController.getUsers().isEmpty()) {
-                        userController.listUsers();
-                    } else {
-                        System.out.println("Desculpe, mas não temos nenhum usuario cadastrado ainda :(");
-                    }
+                    userController.listUsers();
+
+
+//                    if(!userController.getUsers().isEmpty()) {
+//                        userController.listUsers();
+//                    } else {
+//                        System.out.println("Desculpe, mas não temos nenhum usuario cadastrado ainda :(");
+//                    }
                     break;
 
             }

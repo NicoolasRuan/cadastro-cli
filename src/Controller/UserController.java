@@ -19,10 +19,19 @@ public class UserController {
         UserController.service = service;
     }
 
-    public void createUser() {
+    public void createUser() throws IOException {
+        //reading response from form
         Map<String, String> map = service.readQuestions("formulario.txt");
-        users.add(new User(map.get("name"), map.get("email"), map.get("age"), map.get("height")));
-        System.out.println(map);
+
+        //adding user
+        User user = new User(map.get("name"), map.get("email"), map.get("age"), map.get("height"));
+        users.add(user);
+
+        //save on db (txt file)
+        service.saveOnDb("usuarios.txt", users);
+
+        //log user in terminal
+        System.out.println(user);
     }
 
     public void deleteUser() {
@@ -32,11 +41,13 @@ public class UserController {
     public void updateUser() {}
 
     public void listUsers() {
-        if(!getUsers().isEmpty()) {
+        List <User> users = service.readFromDb("usuarios.txt");
+        if(users != null && !users.isEmpty()) {
             int i = 1;
             for(User user: users) {
                 System.out.println("=====USER #"+i+"=====");
                 System.out.println(user.toString());
+                System.out.println("================");
                 System.out.println();
                 i++;
             }
