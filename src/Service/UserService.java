@@ -56,19 +56,23 @@ public class UserService {
     }
 
     public List<User> readFromDb(String path) {
-        List<User> users = null;
+        List<User> users = new ArrayList<>();
         try {
-            FileInputStream fis = new FileInputStream(path);
-            ObjectInputStream ois = new ObjectInputStream(fis);
+            File file = new File(path);
 
-            // Lendo o objeto (que é uma lista de usuários)
-            System.out.println(ois.readByte());
-            if(ois.available()>0) {
+            if (file.length() == 0) {
+                System.out.println("O arquivo está vazio.");
+            } else {
+                FileInputStream fis = new FileInputStream(file);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+
+                // Lendo o objeto (que é uma lista de usuários)
                 users = (List<User>) ois.readObject();
+
+                // Fechando o stream
+                ois.close();
             }
 
-            // Fechando o stream
-            ois.close();
         } catch (EOFException e) {
             System.out.println("nenhum usuario cadastrado no banco.");
             System.out.println();

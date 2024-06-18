@@ -11,12 +11,12 @@ import java.util.Map;
 
 public class UserController {
     private User model;
-    private final List<User> users = new ArrayList<>();
     private static UserService service;
+    private final List<User> users;
 
-
-    public UserController(UserView view, UserService service) {
+    public UserController(UserView view, UserService service, List<User> users ) {
         UserController.service = service;
+        this.users = users;
     }
 
     public void createUser() throws IOException {
@@ -25,11 +25,14 @@ public class UserController {
 
         //adding user
         User user = new User(map.get("name"), map.get("email"), map.get("age"), map.get("height"));
-        users.add(user);
-
-        //save on db (txt file)
-        service.saveOnDb("usuarios.txt", users);
-
+        List<User> dbUsers = service.readFromDb("usuarios.txt");
+        if (dbUsers.isEmpty()) {
+            users.add(user);
+            service.saveOnDb("usuarios.txt", user);
+        } else {
+            service.saveOnDb("usuarios.txt", user);
+            users.addAll(dbUsers);
+        }
         //log user in terminal
         System.out.println(user);
     }
@@ -42,6 +45,7 @@ public class UserController {
 
     public void listUsers() {
         List <User> users = service.readFromDb("usuarios.txt");
+        //System.out.println(users);
         if(users != null && !users.isEmpty()) {
             int i = 1;
             for(User user: users) {

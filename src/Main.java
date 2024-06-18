@@ -12,9 +12,12 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws IOException {
 
+        //local db
+        List<User> users = new ArrayList<>();
+
         UserView view = new UserView();
         UserService service = new UserService();
-        UserController userController = new UserController(view, service);
+        UserController userController = new UserController(view, service, users);
 
 
         List<Usuario> banco = Cadastrar.getBanco();
